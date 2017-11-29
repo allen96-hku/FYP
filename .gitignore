@@ -2,3 +2,7 @@ hkunetwork/crypto-config/
 hkunetwork/channel-artifacts/
 bin/
 go/
+hkunetwork/channel-artifacts/.DS_Store
+*.pem
+*.tx
+*.crt
