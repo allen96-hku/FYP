@@ -1,0 +1,184 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  orderer.hku.com:
+    container_name: orderer.hku.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/hku.com/orderers/orderer.hku.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/hku.com/orderers/orderer.hku.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 7050:7050
+
+  peer0.athclub.hku.com:
+    container_name: peer0.athclub.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.athclub.hku.com
+      - CORE_PEER_ADDRESS=peer0.athclub.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.athclub.hku.com:7051
+      - CORE_PEER_LOCALMSPID=AthClubMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/athclub.hku.com/peers/peer0.athclub.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/athclub.hku.com/peers/peer0.athclub.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7051:7051
+      - 7053:7053
+
+  peer1.athclub.hku.com:
+    container_name: peer1.athclub.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.athclub.hku.com
+      - CORE_PEER_ADDRESS=peer1.athclub.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.athclub.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.athclub.hku.com:7051
+      - CORE_PEER_LOCALMSPID=AthClubMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/athclub.hku.com/peers/peer1.athclub.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/athclub.hku.com/peers/peer1.athclub.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 8051:7051
+      - 8053:7053
+
+  peer0.hallA.hku.com:
+    container_name: peer0.hallA.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.hallA.hku.com
+      - CORE_PEER_ADDRESS=peer0.hallA.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.hallA.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.hallA.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallAMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallA.hku.com/peers/peer0.hallA.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallA.hku.com/peers/peer0.hallA.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 9051:7051
+      - 9053:7053
+
+  peer1.hallA.hku.com:
+    container_name: peer1.hallA.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.hallA.hku.com
+      - CORE_PEER_ADDRESS=peer1.hallA.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.hallA.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.hallA.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallAMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallA.hku.com/peers/peer1.hallA.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallA.hku.com/peers/peer1.hallA.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 10051:7051
+      - 10053:7053
+
+  peer0.hallB.hku.com:
+    container_name: peer0.hallB.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.hallB.hku.com
+      - CORE_PEER_ADDRESS=peer0.hallB.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.hallB.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.hallB.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallBMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallB.hku.com/peers/peer0.hallB.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallB.hku.com/peers/peer0.hallB.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 11051:7051
+      - 11053:7053
+
+  peer1.hallB.hku.com:
+    container_name: peer1.hallB.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.hallB.hku.com
+      - CORE_PEER_ADDRESS=peer1.hallB.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.hallB.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.hallB.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallBMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallB.hku.com/peers/peer1.hallB.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallB.hku.com/peers/peer1.hallB.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 12051:7051
+      - 12053:7053
+
+
+  peer0.hallC.hku.com:
+    container_name: peer0.hallC.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.hallC.hku.com
+      - CORE_PEER_ADDRESS=peer0.hallC.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.hallC.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.hallC.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallCMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallC.hku.com/peers/peer0.hallC.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallC.hku.com/peers/peer0.hallC.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 13051:7051
+      - 13053:7053
+
+  peer1.hallC.hku.com:
+    container_name: peer1.hallC.hku.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.hallC.hku.com
+      - CORE_PEER_ADDRESS=peer1.hallC.hku.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.hallC.hku.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.hallC.hku.com:7051
+      - CORE_PEER_LOCALMSPID=HallCMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/hallC.hku.com/peers/peer1.hallC.hku.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/hallC.hku.com/peers/peer1.hallC.hku.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 14051:7051
+      - 14053:7053

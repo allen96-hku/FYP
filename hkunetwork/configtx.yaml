@@ -1,0 +1,92 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+################################################################################
+#   Profile
+################################################################################
+Profiles:
+    FourOrgsOrdererGenesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            HKU:
+                Organizations:
+                    - *AthClub
+                    - *HallA
+                    - *HallB
+                    - *HallC
+    FourOrgsChannel:
+        Consortium: HKU
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *AthClub
+                - *HallA
+                - *HallB
+                - *HallC
+################################################################################
+#   Section: Organizations
+################################################################################
+Organizations:
+    - &OrdererOrg
+        Name: OrdererMSP
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/hku.com/msp
+
+    - &AthClub
+        Name: AthClubMSP
+        ID: AthClubMSP
+        MSPDir: crypto-config/peerOrganizations/athclub.hku.com/msp
+        AnchorPeers:
+            - Host: peer0.athclub.hku.com
+              Port: 7051
+
+    - &HallA
+        Name: HallAMSP
+        ID: HallAMSP
+        MSPDir: crypto-config/peerOrganizations/hallA.hku.com/msp
+        AnchorPeers:
+            - Host: peer0.hallA.hku.com
+              Port: 7051
+
+    - &HallB
+        Name: HallBMSP
+        ID: HallBMSP
+        MSPDir: crypto-config/peerOrganizations/hallB.hku.com/msp
+        AnchorPeers:
+            - Host: peer0.hallB.hku.com
+              Port: 7051       
+
+    - &HallC
+        Name: HallCMSP
+        ID: HallCMSP
+        MSPDir: crypto-config/peerOrganizations/hallC.hku.com/msp
+        AnchorPeers:
+            - Host: peer0.hallC.hku.com
+              Port: 7051                     
+################################################################################
+#   SECTION: Orderer
+################################################################################
+Orderer: &OrdererDefaults
+    OrdererType: solo
+    Addresses:
+        - orderer.hku.com:7050
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Kafka:
+        Brokers:
+            - 127.0.0.1:9092
+    Organizations:
+################################################################################
+#   SECTION: Application
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:
