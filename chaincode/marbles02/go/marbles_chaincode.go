@@ -171,6 +171,7 @@ func (t *SimpleChaincode) initMarble(stub shim.ChaincodeStubInterface, args []st
 	if len(args[3]) <= 0 {
 		return shim.Error("4th argument must be a non-empty string")
 	}
+
 	marbleName := args[0]
 	color := strings.ToLower(args[1])
 	owner := strings.ToLower(args[3])
@@ -331,7 +332,7 @@ func (t *SimpleChaincode) transferMarble(stub shim.ChaincodeStubInterface, args 
 		return shim.Error(err.Error())
 	}
 
-	fmt.Println("- end transferMarble (success)")
+	fmt.Println(stub.GetState(marbleName) + "- end transferMarble (success)")
 	return shim.Success(nil)
 }
 

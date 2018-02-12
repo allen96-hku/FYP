@@ -37,11 +37,13 @@ Organizations:
         Name: OrdererMSP
         ID: OrdererMSP
         MSPDir: crypto-config/ordererOrganizations/hku.com/msp
+        AdminPrincipal: Role.ADMIN
 
     - &AthClub
         Name: AthClubMSP
         ID: AthClubMSP
         MSPDir: crypto-config/peerOrganizations/athclub.hku.com/msp
+        AdminPrincipal: Role.ADMIN
         AnchorPeers:
             - Host: peer0.athclub.hku.com
               Port: 7051
@@ -50,6 +52,7 @@ Organizations:
         Name: HallAMSP
         ID: HallAMSP
         MSPDir: crypto-config/peerOrganizations/hallA.hku.com/msp
+        AdminPrincipal: Role.MEMBER
         AnchorPeers:
             - Host: peer0.hallA.hku.com
               Port: 7051
@@ -58,6 +61,7 @@ Organizations:
         Name: HallBMSP
         ID: HallBMSP
         MSPDir: crypto-config/peerOrganizations/hallB.hku.com/msp
+        AdminPrincipal: Role.MEMBER
         AnchorPeers:
             - Host: peer0.hallB.hku.com
               Port: 7051       
@@ -66,6 +70,7 @@ Organizations:
         Name: HallCMSP
         ID: HallCMSP
         MSPDir: crypto-config/peerOrganizations/hallC.hku.com/msp
+        AdminPrincipal: Role.MEMBER
         AnchorPeers:
             - Host: peer0.hallC.hku.com
               Port: 7051                     
