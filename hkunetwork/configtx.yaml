@@ -8,18 +8,29 @@
 #   Profile
 ################################################################################
 Profiles:
-    FourOrgsOrdererGenesis:
+    SixOrgsOrdererGenesis:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
                 - *OrdererOrg
         Consortiums:
+            CUHK:
+                Organizations:
+                    - *ClubA
+                    - *ClubB
             HKU:
                 Organizations:
                     - *AthClub
                     - *HallA
                     - *HallB
                     - *HallC
+    TwoOrgsChannel:
+        Consortium: CUHK
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *ClubA
+                - *ClubB
     FourOrgsChannel:
         Consortium: HKU
         Application:
@@ -29,10 +40,11 @@ Profiles:
                 - *HallA
                 - *HallB
                 - *HallC
+##########################
 ################################################################################
 #   Section: Organizations
 ################################################################################
-Organizations:
+Organizations: 
     - &OrdererOrg
         Name: OrdererMSP
         ID: OrdererMSP
@@ -73,7 +85,20 @@ Organizations:
         AdminPrincipal: Role.MEMBER
         AnchorPeers:
             - Host: peer0.hallC.hku.com
-              Port: 7051                     
+              Port: 7051                  
+
+    - &ClubA
+        Name: ClubAMSP
+        ID: ClubAMSP
+        MSPDir: crypto-config/peerOrganizations/clubA.cuhk.com/msp
+        AdminPrincipal: Role.ADMIN
+
+    - &ClubB
+        Name: ClubBMSP
+        ID: ClubBMSP
+        MSPDir: crypto-config/peerOrganizations/clubB.cuhk.com/msp
+        AdminPrincipal: Role.MEMBER
+                   
 ################################################################################
 #   SECTION: Orderer
 ################################################################################

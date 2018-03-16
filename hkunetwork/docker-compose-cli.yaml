@@ -10,6 +10,7 @@ networks:
 
 services:
 
+# Orderer
   orderer.hku.com:
     container_name: orderer.hku.com
     extends:
@@ -18,6 +19,7 @@ services:
     networks:
       - hkunetwork
 
+# HKU
   peer0.athclub.hku.com:
     container_name: peer0.athclub.hku.com
     extends:
@@ -82,6 +84,22 @@ services:
     networks:
       - hkunetwork
 
+# CUHK
+  peer0.clubA.cuhk.com:
+    container_name: peer0.clubA.cuhk.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.clubA.cuhk.com
+    networks:
+      - hkunetwork
+
+  peer0.clubB.cuhk.com:
+    container_name: peer0.clubB.cuhk.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.clubB.cuhk.com
+    networks:
+      - hkunetwork
 
   cli:
     container_name: cli
@@ -118,5 +136,7 @@ services:
       - peer1.hallB.hku.com
       - peer0.hallC.hku.com
       - peer1.hallC.hku.com
+      - peer0.clubA.cuhk.com
+      - peer0.clubB.cuhk.com
     networks:
       - hkunetwork

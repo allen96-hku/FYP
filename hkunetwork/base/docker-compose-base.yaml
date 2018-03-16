@@ -182,3 +182,42 @@ services:
     ports:
       - 14051:7051
       - 14053:7053
+
+
+  peer0.clubA.cuhk.com:
+    container_name: peer0.clubA.cuhk.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.clubA.cuhk.com
+      - CORE_PEER_ADDRESS=peer0.clubA.cuhk.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.clubA.cuhk.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.clubA.cuhk.com:7051
+      - CORE_PEER_LOCALMSPID=ClubAMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/clubA.cuhk.com/peers/peer0.clubA.cuhk.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/clubA.cuhk.com/peers/peer0.clubA.cuhk.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 15051:7051
+      - 15053:7053
+
+  peer0.clubB.cuhk.com:
+    container_name: peer0.clubB.cuhk.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.clubB.cuhk.com
+      - CORE_PEER_ADDRESS=peer0.clubB.cuhk.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.clubB.cuhk.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.clubB.cuhk.com:7051
+      - CORE_PEER_LOCALMSPID=ClubBMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/clubB.cuhk.com/peers/peer0.clubB.cuhk.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/clubB.cuhk.com/peers/peer0.clubB.cuhk.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 16051:7051
+      - 16053:7053
